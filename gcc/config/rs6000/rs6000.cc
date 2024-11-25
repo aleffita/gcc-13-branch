@@ -1760,7 +1760,16 @@ static const struct attribute_spec rs6000_attribute_table[] =
 
 #undef TARGET_UPDATE_IPA_FN_TARGET_INFO
 #define TARGET_UPDATE_IPA_FN_TARGET_INFO rs6000_update_ipa_fn_target_info
-
+
+static bool rs6000_cell64lv2_valid_pointer_mode(scalar_int_mode);
+
+static bool rs6000_cell64lv2_valid_pointer_mode(scalar_int_mode mode)
+{
+  return (mode == SImode || (TARGET_64BIT && mode == DImode) || mode == ptr_mode || mode == Pmode);
+}
+
+#undef TARGET_VALID_POINTER_MODE
+#define TARGET_VALID_POINTER_MODE rs6000_cell64lv2_valid_pointer_mode
 
 /* Processor table.  */
 struct rs6000_ptt
